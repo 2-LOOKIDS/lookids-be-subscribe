@@ -1,9 +1,9 @@
-package lookids.subscribe.dto.in;
+package lookids.subscribe.subscribe.dto.in;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lookids.subscribe.vo.in.SubscribeRequestVo;
+import lookids.subscribe.subscribe.vo.in.SubscribeRequestVo;
 
 @Getter
 @NoArgsConstructor
