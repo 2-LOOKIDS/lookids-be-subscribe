@@ -1,4 +1,4 @@
-package lookids.subscribe.domain;
+package lookids.subscribe.subscribe.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
