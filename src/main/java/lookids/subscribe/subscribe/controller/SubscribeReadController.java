@@ -13,7 +13,7 @@ import lookids.subscribe.subscribe.vo.out.SubscribeResponseVo;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/write/subscribe")
+@RequestMapping("/read/subscribe")
 public class SubscribeReadController {
 	private final SubscribeService subscribeService;
 
@@ -22,8 +22,10 @@ public class SubscribeReadController {
 	@Operation(summary = "구독자 목록 조회 API", description = "해당 게시글 글쓴이의 알림 신청인 목록을 조회합니다.", tags = {"Subscribe"})
 	@GetMapping("/{authorUuid}")
 	public BaseResponse<SubscribeResponseVo> getSubscribers(@RequestParam String authorUuid) {
-		return new BaseResponse<>(subscribeService.getSubscribers(authorUuid).toVo());
+		return new BaseResponse<>(subscribeService.readSubscribers(authorUuid).toVo());
 
 	}
+
+
 
 }
