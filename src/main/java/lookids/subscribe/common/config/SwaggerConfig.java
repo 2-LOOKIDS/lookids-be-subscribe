@@ -26,18 +26,19 @@ public class SwaggerConfig {
 				.bearerFormat(securityJwtName));
 
 		return new OpenAPI()
-			// .addServersItem(new Server().url("/"))
-			.addSecurityItem(securityRequirement)
-			.components(components)
-			.addServersItem(new Server().url("/subscribe-service"))//"http://localhost:8080"))
+			.addServersItem(new Server().url("http://localhost:8081"))//"/subscribe-service"
 			.info(new Info()
-				.title("subscribe API ")
+				.title("Subscribe API")
 				.version("1.0.0")
-				.description("subscribe API 문서에 대한 설명"))
-			.addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
+				.description("Subscribe API 문서"))
+			.addSecurityItem(new SecurityRequirement().addList(securityJwtName))
 			.components(new Components()
-				.addSecuritySchemes("bearerAuth",
-					new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")));
+				.addSecuritySchemes(securityJwtName,
+					new SecurityScheme()
+						.name(securityJwtName)
+						.type(SecurityScheme.Type.HTTP)
+						.scheme("bearer")
+						.bearerFormat(securityJwtName)));
 	}
 
 	private Info apiInfo() {
