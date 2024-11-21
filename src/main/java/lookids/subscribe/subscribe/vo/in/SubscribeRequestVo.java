@@ -7,4 +7,5 @@ import lombok.ToString;
 @Getter
 public class SubscribeRequestVo {
 	private String authorUuid;
+	private String subscriberUuid;
 }

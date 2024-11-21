@@ -8,5 +8,6 @@ import lookids.subscribe.subscribe.domain.Subscribe;
 
 public interface SubscribeRepository extends JpaRepository<Subscribe, Long> {
 	List<Subscribe> findByAuthorUuid(String authorUuid);
+	Long deleteByAuthorUuidAndSubscriberUuid(String authorUuid, String subscriberUuid);
 }
 

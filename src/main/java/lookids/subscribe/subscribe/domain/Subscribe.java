@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -19,8 +20,17 @@ public class Subscribe {
 	@Column(nullable = false)
 	private String authorUuid;
 
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false)
 	private String subscriberUuid;
+
+	@Builder
+	public Subscribe(
+		String authorUuid,
+		String subscriberUuid
+	) {
+		this.authorUuid = authorUuid;
+		this.subscriberUuid = subscriberUuid;
+	}
 
 
 }
