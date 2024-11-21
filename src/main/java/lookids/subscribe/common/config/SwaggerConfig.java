@@ -29,7 +29,7 @@ public class SwaggerConfig {
 			// .addServersItem(new Server().url("/"))
 			.addSecurityItem(securityRequirement)
 			.components(components)
-			.addServersItem(new Server().url("http://localhost:8080"))//"/subscribe-service"))
+			.addServersItem(new Server().url("/subscribe-service"))//"http://localhost:8080"))
 			.info(new Info()
 				.title("subscribe API ")
 				.version("1.0.0")
