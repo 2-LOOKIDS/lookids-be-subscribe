@@ -3,6 +3,7 @@ package lookids.subscribe.subscribe.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,7 @@ public class SubscribeServiceImpl implements SubscribeService{
 	private final SubscribeRepository subscribeRepository;
 
 	@Override
+	@Cacheable(value = "subscribers", key = "#authorUuid")
 	public SubscribeResponseDto readSubscribers(String authorUuid) {
 		List<Subscribe> subscribers = subscribeRepository.findByAuthorUuid(authorUuid);
 
