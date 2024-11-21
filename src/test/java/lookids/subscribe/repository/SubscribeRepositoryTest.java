@@ -15,6 +15,8 @@ import lookids.subscribe.subscribe.service.SubscribeServiceImpl;
 public class SubscribeRepositoryTest {
 	@Autowired
 	private SubscribeRepository subscribeRepository;
+	@Autowired
+	private SubscribeServiceImpl subscribeService;
 
 	// @Test
 	// public void testBulkSubscribersRegistration() {
@@ -41,30 +43,23 @@ public class SubscribeRepositoryTest {
 
 	@Test
 	public void testQueryTimeForNormalAuthor() {
-		// 주어진 authorUuid
 		String authorUuid = "normal-12345678";
 
-		// 서비스 인스턴스 주입 (예: @Autowired 또는 생성자 주입)
-		SubscribeServiceImpl subscribeService = new SubscribeServiceImpl(subscribeRepository);
-
-		// 조회 시작 시간 측정
+		// 첫 번째 호출
 		long startTime = System.nanoTime();
-
-		// authorUuid로 구독자 조회
-		SubscribeResponseDto response = subscribeService.readSubscribers(authorUuid);
-
-		// 조회 종료 시간 측정
+		SubscribeResponseDto response1 = subscribeService.readSubscribers(authorUuid);
 		long endTime = System.nanoTime();
+		long duration1 = (endTime - startTime) / 1_000_000;
+		System.out.println("첫 번째 조회 시간: " + duration1 + " ms");
 
+		// 두 번째 호출 (캐시에서 가져와야 하므로 시간이 줄어들어야 함)
+		startTime = System.nanoTime();
+		SubscribeResponseDto response2 = subscribeService.readSubscribers(authorUuid);
+		endTime = System.nanoTime();
+		long duration2 = (endTime - startTime) / 1_000_000;
+		System.out.println("두 번째 조회 시간: " + duration2 + " ms");
 
-		// 조회 시간 계산 (밀리초 단위로 변환)
-		long durationInMillis = (endTime - startTime) / 1_000_000;
-
-		// 결과 출력
-		System.out.println("조회 시간: " + durationInMillis + " ms");
-
-		// 결과 검증 (예: 구독자가 존재해야 함)
-		assertThat(response.getSubscriberUuids()).isNotEmpty();
+		assertThat(response1.getSubscriberUuids()).isNotEmpty();
+		assertThat(response2.getSubscriberUuids()).isEqualTo(response1.getSubscriberUuids());
 	}
-
 }
