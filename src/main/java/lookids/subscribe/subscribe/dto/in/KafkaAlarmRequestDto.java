@@ -28,4 +28,15 @@ public class KafkaAlarmRequestDto {
 		this.mediaUrl = mediaUrl;
 		this.type = type;
 	}
+
+	public static KafkaAlarmRequestDto toDto(KafkaFeedRequestDto kafkaFeedRequestDto, List<String> receiverUuidList){
+		return KafkaAlarmRequestDto.builder()
+			.senderUuid(kafkaFeedRequestDto.getSenderUuid())
+			.receiverUuidList(receiverUuidList)
+			.feedContent(kafkaFeedRequestDto.getFeedContent())
+			.mediaUrl(kafkaFeedRequestDto.getMediaUrlList().get(0))
+			.type("feed")
+			.build();
+
+	}
 }
