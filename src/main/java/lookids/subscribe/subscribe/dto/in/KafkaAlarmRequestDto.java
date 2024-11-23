@@ -29,13 +29,13 @@ public class KafkaAlarmRequestDto {
 		this.type = type;
 	}
 
-	public static KafkaAlarmRequestDto toDto(KafkaFeedRequestDto kafkaFeedRequestDto, List<String> receiverUuidList){
+	public static KafkaAlarmRequestDto toDto(KafkaFeedRequestDto kafkaFeedRequestDto, List<String> receiverUuidList, String splitedContent, String type) {
 		return KafkaAlarmRequestDto.builder()
-			.senderUuid(kafkaFeedRequestDto.getSenderUuid())
+			.senderUuid(kafkaFeedRequestDto.getUuid())
 			.receiverUuidList(receiverUuidList)
-			.feedContent(kafkaFeedRequestDto.getFeedContent())
+			.feedContent(splitedContent)
 			.mediaUrl(kafkaFeedRequestDto.getMediaUrlList().get(0))
-			.type("feed")
+			.type(type)
 			.build();
 
 	}
