@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class KafkaAlarmRequestDto {
+public class AlarmKafkaRequestDto {
 	private String senderUuid;
 	private List<String> receiverUuidList;
 	private String feedContent;
@@ -15,7 +15,7 @@ public class KafkaAlarmRequestDto {
 	private String type;
 
 	@Builder
-	public KafkaAlarmRequestDto(
+	public AlarmKafkaRequestDto(
 		String senderUuid,
 		List<String> receiverUuidList,
 		String feedContent,
@@ -29,8 +29,8 @@ public class KafkaAlarmRequestDto {
 		this.type = type;
 	}
 
-	public static KafkaAlarmRequestDto toDto(KafkaFeedRequestDto kafkaFeedRequestDto, List<String> receiverUuidList, String splitedContent, String type) {
-		return KafkaAlarmRequestDto.builder()
+	public static AlarmKafkaRequestDto toDto(FeedKafkaRequestDto kafkaFeedRequestDto, List<String> receiverUuidList, String splitedContent, String type) {
+		return AlarmKafkaRequestDto.builder()
 			.senderUuid(kafkaFeedRequestDto.getUuid())
 			.receiverUuidList(receiverUuidList)
 			.feedContent(splitedContent)
