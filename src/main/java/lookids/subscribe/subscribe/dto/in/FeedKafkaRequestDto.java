@@ -8,13 +8,13 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class KafkaFeedRequestDto {
+public class FeedKafkaRequestDto {
 	private String uuid; 			   // Feed에서 send로 보낸 값과 통일, 피드 작성자 uuid
 	private List<String> mediaUrlList; // 첫 이미지만 알림 서비스로 전송
 	private String content;		   // 피드 내용 적절히 잘라서 알림 서비스로 전송
 
 	@Builder
-	public KafkaFeedRequestDto(
+	public FeedKafkaRequestDto(
 		String uuid,
 		List<String> mediaUrlList,
 		String content

@@ -15,7 +15,7 @@ import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 
-import lookids.subscribe.subscribe.dto.in.KafkaFeedRequestDto;
+import lookids.subscribe.subscribe.dto.in.FeedKafkaRequestDto;
 
 @EnableKafka
 @Configuration
@@ -26,7 +26,7 @@ public class KafkaConfig {
 	private String bootstrapServers;
 
 	@Bean
-	public ConsumerFactory<String, KafkaFeedRequestDto> feedConsumerFactory() {
+	public ConsumerFactory<String, FeedKafkaRequestDto> feedConsumerFactory() {
 		Map<String, Object> props = new HashMap<>();
 		// Kafka 브로커 주소 설정
 		props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
@@ -47,13 +47,13 @@ public class KafkaConfig {
 		// ErrorHandlingDeserializer: 역직렬화 실패 시 에러 처리
 		// JsonDeserializer: JSON을 KafkaFeedRequestDto로 변환
 		return new DefaultKafkaConsumerFactory<>(props, new StringDeserializer(),
-			new ErrorHandlingDeserializer<>(new JsonDeserializer<>(KafkaFeedRequestDto.class, false)));
+			new ErrorHandlingDeserializer<>(new JsonDeserializer<>(FeedKafkaRequestDto.class, false)));
 	}
 
 	@Bean
-	public ConcurrentKafkaListenerContainerFactory<String, KafkaFeedRequestDto> feedEventListenerContainerFactory() {
+	public ConcurrentKafkaListenerContainerFactory<String, FeedKafkaRequestDto> feedEventListenerContainerFactory() {
 		// @KafkaListener 어노테이션이 사용할 Factory 설정
-		ConcurrentKafkaListenerContainerFactory<String, KafkaFeedRequestDto> factory = new ConcurrentKafkaListenerContainerFactory<>();
+		ConcurrentKafkaListenerContainerFactory<String, FeedKafkaRequestDto> factory = new ConcurrentKafkaListenerContainerFactory<>();
 		factory.setConsumerFactory(feedConsumerFactory());
 		return factory;
 	}
