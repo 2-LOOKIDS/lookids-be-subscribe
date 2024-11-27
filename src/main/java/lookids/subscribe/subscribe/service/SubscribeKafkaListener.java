@@ -1,23 +1,26 @@
 package lookids.subscribe.subscribe.service;
 
+import java.util.List;
+
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import lookids.subscribe.subscribe.dto.in.AlarmKafkaRequestDto;
+import lookids.subscribe.subscribe.domain.Subscribe;
 import lookids.subscribe.subscribe.dto.in.FeedKafkaRequestDto;
+import lookids.subscribe.subscribe.dto.in.NotificationKafkaRequestDto;
 import lookids.subscribe.subscribe.repository.SubscribeRepository;
 
 @Service
 //@AllArgsConstructor
 @RequiredArgsConstructor
 @Slf4j
-public class KafkaSubscribeListener {
+public class SubscribeKafkaListener {
 
 	private final SubscribeRepository subscribeRepository;
-	private final KafkaTemplate<String, AlarmKafkaRequestDto> kafkaTemplate;
+	private final KafkaTemplate<String, NotificationKafkaRequestDto> kafkaTemplate;
 	private final String TYPE = "feed";
 
 	// 새로운 피드가 생성되면 feed-create 토픽으로 메시지가 발행
@@ -33,21 +36,22 @@ public class KafkaSubscribeListener {
 
 		log.info("consumeFeedEvent: {}", kafkaFeedRequestDto.getContent());
 
-		// List<Subscribe> authorUuidList = subscribeRepository.findByAuthorUuid(kafkaFeedRequestDto.getUuid());
-		//
-		// List<String> receiverUuidList = authorUuidList
-		// 	.stream()
-		// 	.map(Subscribe::getSubscriberUuid)
-		// 	.toList();
+		List<Subscribe> authorUuidList = subscribeRepository.findByAuthorUuid(kafkaFeedRequestDto.getUuid());
+
+		List<String> receiverUuidList = authorUuidList
+			.stream()
+			.map(Subscribe::getSubscriberUuid)
+			.toList();
 
 		String splitedContent = kafkaFeedRequestDto.getContent().length() > 20 ? kafkaFeedRequestDto.getContent().substring(0, 20) + "..." : kafkaFeedRequestDto.getContent();
 
 		//AlarmKafkaRequestDto kafkaAlarmRequestDto = AlarmKafkaRequestDto.toDto(kafkaFeedRequestDto, receiverUuidList, splitedContent, TYPE);
-
-		//sendMessage("feed-create-join-subscribe", kafkaAlarmRequestDto);
+		NotificationKafkaRequestDto notificationKafkaRequestDto = NotificationKafkaRequestDto.toDto(kafkaFeedRequestDto, receiverUuidList,
+			splitedContent, TYPE);
+		sendMessage("feed-create-join-subscribe", notificationKafkaRequestDto);
 	}
 
-	public void sendMessage(String topic, AlarmKafkaRequestDto kafkaAlarmRequestDto) {
+	public void sendMessage(String topic, NotificationKafkaRequestDto kafkaAlarmRequestDto) {
 		kafkaTemplate.send(topic, kafkaAlarmRequestDto);
 	}
 }

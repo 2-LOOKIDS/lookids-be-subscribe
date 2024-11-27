@@ -21,9 +21,9 @@ public class SubscribeRequestDto {
 		this.subscriberUuid = subscriberUuid;
 	}
 
-	public static SubscribeRequestDto toDto(SubscribeRequestVo subscribeRequestVo){
+	public static SubscribeRequestDto toDto(String subscriberUuid, SubscribeRequestVo subscribeRequestVo){
 		return SubscribeRequestDto.builder()
-			.authorUuid(subscribeRequestVo.getAuthorUuid())
+			.authorUuid(subscriberUuid)
 			.subscriberUuid(subscribeRequestVo.getSubscriberUuid())
 			.build();
 	}
