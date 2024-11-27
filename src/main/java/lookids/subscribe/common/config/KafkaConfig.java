@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,10 +14,15 @@ import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+import org.springframework.kafka.core.DefaultKafkaProducerFactory;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
+import org.springframework.kafka.support.serializer.JsonSerializer;
 
 import lookids.subscribe.subscribe.dto.in.FeedKafkaRequestDto;
+import lookids.subscribe.subscribe.dto.in.NotificationKafkaRequestDto;
 
 @EnableKafka
 @Configuration
@@ -56,6 +63,25 @@ public class KafkaConfig {
 		ConcurrentKafkaListenerContainerFactory<String, FeedKafkaRequestDto> factory = new ConcurrentKafkaListenerContainerFactory<>();
 		factory.setConsumerFactory(feedConsumerFactory());
 		return factory;
+	}
+
+	@Bean
+	public Map<String, Object> subscribeProducerConfigs() {
+		Map<String, Object> producerProps = new HashMap<>();
+		producerProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092,localhost:39092,localhost:49092");
+		producerProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+		producerProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+		return producerProps;
+	}
+
+	@Bean
+	public ProducerFactory<String, NotificationKafkaRequestDto> createFeedNotification() {
+		return new DefaultKafkaProducerFactory<>(subscribeProducerConfigs());
+	}
+
+	@Bean
+	public KafkaTemplate<String, NotificationKafkaRequestDto> kafkaTemplate() {
+		return new KafkaTemplate<>(createFeedNotification());
 	}
 
 
