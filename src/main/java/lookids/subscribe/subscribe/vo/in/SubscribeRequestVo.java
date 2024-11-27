@@ -6,6 +6,6 @@ import lombok.ToString;
 @ToString
 @Getter
 public class SubscribeRequestVo {
-	private String authorUuid;
+	// private String authorUuid;
 	private String subscriberUuid;
 }
