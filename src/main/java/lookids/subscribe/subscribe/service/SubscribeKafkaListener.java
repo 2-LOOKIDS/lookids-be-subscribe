@@ -34,7 +34,9 @@ public class SubscribeKafkaListener {
 		, containerFactory = "feedEventListenerContainerFactory")
 	public void consumeFeedEvent(FeedKafkaRequestDto kafkaFeedRequestDto) {
 
-		log.info("consumeFeedEvent: {}", kafkaFeedRequestDto.getContent());
+		String feedContent = kafkaFeedRequestDto.getContent();
+
+		log.info("consumeFeedEvent: {}", feedContent);
 
 		List<Subscribe> authorUuidList = subscribeRepository.findByAuthorUuid(kafkaFeedRequestDto.getUuid());
 
@@ -43,7 +45,7 @@ public class SubscribeKafkaListener {
 			.map(Subscribe::getSubscriberUuid)
 			.toList();
 
-		String splitedContent = kafkaFeedRequestDto.getContent().length() > 20 ? kafkaFeedRequestDto.getContent().substring(0, 20) + "..." : kafkaFeedRequestDto.getContent();
+		String splitedContent = feedContent.length() > 20 ? feedContent.substring(0, 20) + "..." : feedContent;
 
 		//AlarmKafkaRequestDto kafkaAlarmRequestDto = AlarmKafkaRequestDto.toDto(kafkaFeedRequestDto, receiverUuidList, splitedContent, TYPE);
 		NotificationKafkaRequestDto notificationKafkaRequestDto = NotificationKafkaRequestDto.toDto(kafkaFeedRequestDto, receiverUuidList,
