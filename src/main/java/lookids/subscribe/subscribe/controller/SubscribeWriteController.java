@@ -20,7 +20,16 @@ import lookids.subscribe.subscribe.vo.in.SubscribeRequestVo;
 public class SubscribeWriteController {
 	private final SubscribeService subscribeService;
 
-	@Operation(summary = "게시글 알림 신청 API", description = "해당 게시글의 알림을 신청합니다.", tags = {"Subscribe"})
+	@Operation(summary = "게시글 알림 신청 API",
+		description = """
+        <p>이 API는 특정 게시글에 대한 알림을 신청하는 기능을 제공합니다.</p>
+        <p><strong>헤더</strong>에 포함된 <code>subscriberUuid</code>는 요청자의 고유 ID이며, 본인의 UUID를 전달해야 합니다.</p>
+        <p><strong>바디</strong>에 포함된 데이터는 알림을 신청할 게시글 정보 및 알림 설정 값을 담고 있습니다.</p>
+        <ul>
+            <li><code>subscriberUuid</code>: 알림 신청자의 UUID (헤더)</li>
+            <li><code>authorUuid</code>: 알림을 신청할 게시글 작성자의 UUID (경로 파라미터)</li>
+        </ul>""",
+		tags = {"Subscribe"})
 	@PostMapping("/{authorUuid}")
 	public BaseResponse<Void> createSubscribe(
 		@RequestHeader String subscriberUuid,
