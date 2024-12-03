@@ -9,29 +9,29 @@ import lookids.subscribe.subscribe.vo.in.SubscribeRequestVo;
 @Getter
 @NoArgsConstructor
 public class SubscribeRequestDto {
-	private String authorUuid;
 	private String subscriberUuid;
+	private String authorUuid;
 
 	@Builder
 	public SubscribeRequestDto(
-		String authorUuid,
-		String subscriberUuid
+		String subscriberUuid,
+		String authorUuid
 	) {
-		this.authorUuid = authorUuid;
 		this.subscriberUuid = subscriberUuid;
+		this.authorUuid = authorUuid;
 	}
 
 	public static SubscribeRequestDto toDto(String subscriberUuid, SubscribeRequestVo subscribeRequestVo){
 		return SubscribeRequestDto.builder()
-			.authorUuid(subscriberUuid)
-			.subscriberUuid(subscribeRequestVo.getSubscriberUuid())
+			.subscriberUuid(subscriberUuid)
+			.authorUuid(subscribeRequestVo.getAuthorUuid())
 			.build();
 	}
 
 	public Subscribe toEntity(){
 		return Subscribe.builder()
-			.authorUuid(authorUuid)
 			.subscriberUuid(subscriberUuid)
+			.authorUuid(authorUuid)
 			.build();
 	}
 }
