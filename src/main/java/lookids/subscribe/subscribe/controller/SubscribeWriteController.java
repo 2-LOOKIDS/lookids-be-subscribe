@@ -26,15 +26,15 @@ public class SubscribeWriteController {
         <p><strong>헤더</strong>에 포함된 <code>subscriberUuid</code>는 요청자의 고유 ID이며, 본인의 UUID를 전달해야 합니다.</p>
         <p><strong>바디</strong>에 포함된 데이터는 알림을 신청할 게시글 정보 및 알림 설정 값을 담고 있습니다.</p>
         <ul>
-            <li><code>subscriberUuid</code>: 알림 신청자의 UUID (헤더)</li>
+            <li><code>uuid</code>: 알림 신청자의 UUID (헤더)</li>
             <li><code>authorUuid</code>: 알림을 신청할 게시글 작성자의 UUID (경로 파라미터)</li>
         </ul>""",
 		tags = {"Subscribe"})
 	@PostMapping("/{authorUuid}")
 	public BaseResponse<Void> createSubscribe(
-		@RequestHeader String subscriberUuid,
+		@RequestHeader String uuid,
 		@RequestBody SubscribeRequestVo subscribeRequestVo) {
-		subscribeService.createSubscribe(SubscribeRequestDto.toDto(subscriberUuid, subscribeRequestVo));
+		subscribeService.createSubscribe(SubscribeRequestDto.toDto(uuid, subscribeRequestVo));
 		return new BaseResponse<>();
 	}
 
