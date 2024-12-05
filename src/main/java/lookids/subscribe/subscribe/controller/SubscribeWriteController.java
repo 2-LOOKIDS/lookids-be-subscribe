@@ -30,7 +30,7 @@ public class SubscribeWriteController {
             <li><code>authorUuid</code>: 알림을 신청할 게시글 작성자의 UUID (경로 파라미터)</li>
         </ul>""",
 		tags = {"Subscribe"})
-	@PostMapping("/{authorUuid}")
+	@PostMapping
 	public BaseResponse<Void> createSubscribe(
 		@RequestHeader String uuid,
 		@RequestBody SubscribeRequestVo subscribeRequestVo) {
@@ -39,7 +39,7 @@ public class SubscribeWriteController {
 	}
 
 	@Operation(summary = "게시글 알림 신청 취소 API", description = "해당 게시글의 알림을 취소합니다.", tags = {"Subscribe"})
-	@DeleteMapping("/{authorUuid}")
+	@DeleteMapping
 	public BaseResponse<Void> deleteSubscribe(
 		@RequestHeader String subscriberUuid,
 		@RequestBody SubscribeRequestVo subscribeRequestVo) {
