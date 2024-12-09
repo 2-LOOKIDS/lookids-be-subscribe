@@ -26,7 +26,7 @@ public class SwaggerConfig {
 				.bearerFormat(securityJwtName));
 
 		return new OpenAPI()
-			.addServersItem(new Server().url("/subscribe-service"))//"http://localhost:8081"))
+			.addServersItem(new Server().url("http://localhost:8081"))//"/subscribe-service"))
 			.info(new Info()
 				.title("Subscribe API")
 				.version("1.0.0")

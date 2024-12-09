@@ -34,7 +34,14 @@ public class SubscribeServiceImpl implements SubscribeService{
 	// 게시글 알림 신청 버튼이 off 상태일 때 적용 (등록)
 	@Override
 	public void createSubscribe(SubscribeRequestDto subscribeRequestDto) {
-		subscribeRepository.save(subscribeRequestDto.toEntity());
+		if(subscribeRepository.findByAuthorUuidAndSubscriberUuid(
+			subscribeRequestDto.getAuthorUuid(),
+			subscribeRequestDto.getSubscriberUuid()
+		) == null) {
+			subscribeRepository.save(subscribeRequestDto.toEntity());
+		}else {
+			throw new IllegalArgumentException("이미 알림을 받고 있는 사용자입니다.");
+		}
 	}
 
 	// 게시글 알림 신청 버튼이 on 상태일 때 적용 (삭제)
