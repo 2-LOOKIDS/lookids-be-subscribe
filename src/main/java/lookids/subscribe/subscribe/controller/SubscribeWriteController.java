@@ -41,9 +41,9 @@ public class SubscribeWriteController {
 	@Operation(summary = "게시글 알림 신청 취소 API", description = "해당 게시글의 알림을 취소합니다.", tags = {"Subscribe"})
 	@DeleteMapping
 	public BaseResponse<Void> deleteSubscribe(
-		@RequestHeader String subscriberUuid,
+		@RequestHeader String uuid,
 		@RequestBody SubscribeRequestVo subscribeRequestVo) {
-		subscribeService.deleteSubscribe(SubscribeRequestDto.toDto(subscriberUuid, subscribeRequestVo));
+		subscribeService.deleteSubscribe(SubscribeRequestDto.toDto(uuid, subscribeRequestVo));
 		return new BaseResponse<>();
 	}
 
