@@ -61,8 +61,6 @@ public class SubscribeServiceImpl implements SubscribeService{
 	public SubscribeStateResponseDto existsByAuthorUuidAndSubscriberUuid(String authorUuid, String subscriberUuid) {
 		boolean isExistSubscriber = subscribeRepository.existsByAuthorUuidAndSubscriberUuid(authorUuid, subscriberUuid);
 		return SubscribeStateResponseDto.toDto(isExistSubscriber);
-			//throw new IllegalArgumentException("게시글 알림 신청을 하지 않은 사용자입니다.");
-			//throw new BaseException(BaseResponseStatus.NO_EXIST_NOTIFICATION_SETTING);
 
 	}
 }
